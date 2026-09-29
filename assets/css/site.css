@@ -1,0 +1,179 @@
+/* FOCUS – webbplatsens stil. Färger och typsnitt enligt appens grafiska
+   profil (FOCUS-flutter/docs/GRAFISK_PROFIL.md). */
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --dark: #465F03;
+  --green: #C8D48B;
+  --beige: #F8F5E4;
+  --background: #FFFEED;
+  --grey: #D9D9C8;
+  --active: #B1D9E5;
+  --warn: #FACDC8;
+  --text: #1c1c1a;
+  --muted: rgba(0, 0, 0, 0.6);
+  --radius: 14px;
+  --max: 1040px;
+  /* San Francisco på Apple-enheter, Inter på övriga – som i appen. */
+  --font: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto,
+    sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+a { color: var(--dark); text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+.narrow { max-width: 720px; }
+
+/* Sidhuvud */
+
+.top { background: var(--dark); color: var(--beige); }
+.top .wrap {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; min-height: 64px; flex-wrap: wrap;
+}
+.brand {
+  color: var(--beige); text-decoration: none; font-weight: 700;
+  font-size: 20px; letter-spacing: 0.3em;
+}
+.nav { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
+.nav a {
+  color: var(--green); text-decoration: none; font-size: 15px;
+}
+.nav a:hover, .nav a[aria-current="page"] { color: var(--beige); }
+.nav .lang {
+  border: 1px solid rgba(200, 212, 139, 0.6); border-radius: 999px;
+  padding: 2px 12px;
+}
+
+/* Startsidans topp */
+
+.hero { background: var(--dark); color: var(--beige); padding: 56px 0 72px; }
+.hero .wrap {
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px;
+  align-items: center;
+}
+.hero h1 {
+  margin: 0; font-size: clamp(44px, 8vw, 72px); letter-spacing: 0.18em;
+  font-weight: 700; line-height: 1.05;
+}
+.hero .tagline {
+  color: var(--green); letter-spacing: 0.12em; margin: 10px 0 24px;
+  font-size: 16px;
+}
+.hero p.lead { font-size: 20px; margin: 0 0 24px; max-width: 34em; }
+.pill {
+  display: inline-block; background: var(--beige); color: var(--dark);
+  border-radius: 999px; padding: 10px 20px; font-weight: 700;
+  font-size: 15px; text-decoration: none;
+}
+.pill.outline {
+  background: transparent; color: var(--green);
+  border: 1px solid rgba(200, 212, 139, 0.6); margin-left: 8px;
+}
+.phone {
+  border-radius: 32px; overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  border: 6px solid #1f2a00; max-width: 300px; margin: 0 auto;
+}
+
+/* Innehåll */
+
+main { padding: 48px 0 64px; }
+h2 { font-size: 28px; margin: 48px 0 12px; line-height: 1.25; }
+h2:first-child { margin-top: 0; }
+h3 { font-size: 19px; margin: 28px 0 6px; }
+.muted { color: var(--muted); }
+
+.grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px; margin-top: 20px;
+}
+.card {
+  background: var(--beige); border-radius: var(--radius); padding: 20px;
+}
+.card h3 { margin-top: 0; }
+.card p { margin: 0; font-size: 16px; }
+.card .icon {
+  width: 40px; height: 40px; border-radius: 10px; background: var(--dark);
+  color: var(--beige); display: grid; place-items: center;
+  font-size: 20px; margin-bottom: 12px;
+}
+
+.screens {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  margin-top: 24px;
+}
+.screens figure { margin: 0; }
+.screens figcaption {
+  text-align: center; font-size: 15px; color: var(--muted); margin-top: 12px;
+}
+.screens .phone { max-width: 260px; }
+
+.note {
+  background: var(--beige); border-left: 4px solid var(--dark);
+  border-radius: 8px; padding: 14px 18px; margin: 20px 0;
+}
+
+ol.steps { padding-left: 1.3em; }
+ol.steps li { margin-bottom: 10px; }
+
+.prose h2 { font-size: 22px; margin-top: 36px; }
+.prose ul { padding-left: 1.2em; }
+.prose li { margin-bottom: 6px; }
+
+details {
+  background: var(--beige); border-radius: var(--radius); padding: 14px 18px;
+  margin-bottom: 10px;
+}
+summary { cursor: pointer; font-weight: 700; }
+details p { margin: 10px 0 0; }
+
+.button {
+  display: inline-block; background: var(--dark); color: #fff;
+  border-radius: 999px; padding: 12px 22px; font-weight: 700;
+  text-decoration: none;
+}
+
+/* Sidfot */
+
+footer {
+  background: var(--beige); padding: 36px 0; font-size: 15px;
+  color: var(--muted);
+}
+footer .wrap {
+  display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+}
+footer p { margin: 0 0 4px; }
+footer a { color: var(--dark); }
+
+@media (max-width: 760px) {
+  .hero .wrap { grid-template-columns: 1fr; }
+  .hero { padding-top: 36px; }
+  .screens { grid-template-columns: 1fr; }
+  .pill.outline { margin: 10px 0 0; }
+  .top .wrap { padding-top: 10px; padding-bottom: 10px; }
+  .nav { gap: 12px; }
+  .nav a { font-size: 14px; }
+}
