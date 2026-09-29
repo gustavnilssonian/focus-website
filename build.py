@@ -20,19 +20,25 @@ ORG = {
 # (nyckel, svensk sökväg, engelsk sökväg)
 PAGES = [
     ('home', '/', '/en/'),
-    ('municipalities', '/kommuner/', '/en/municipalities/'),
+    ('observers', '/observatorer/', '/en/observers/'),
     ('support', '/support/', '/en/support/'),
     ('privacy', '/integritet/', '/en/privacy/'),
 ]
 
+# Adresser som bytts ut: gammal → ny.
+REDIRECTS = {
+    '/kommuner/': '/observatorer/',
+    '/en/municipalities/': '/en/observers/',
+}
+
 TEXT = {
     'sv': {
         'lang_name': 'English', 'other': 'en',
-        'nav': {'municipalities': 'För kommuner', 'support': 'Support',
+        'nav': {'observers': 'För observatörer', 'support': 'Support',
                 'privacy': 'Integritet'},
         'titles': {
             'home': 'FOCUS – app för klassrumsobservationer',
-            'municipalities': 'Gemensamt kalkylark för kommuner – FOCUS',
+            'observers': 'Dela data med andra observatörer – FOCUS',
             'support': 'Support – FOCUS',
             'privacy': 'Integritetspolicy – FOCUS',
         },
@@ -47,11 +53,11 @@ TEXT = {
     },
     'en': {
         'lang_name': 'Svenska', 'other': 'sv',
-        'nav': {'municipalities': 'For municipalities', 'support': 'Support',
+        'nav': {'observers': 'For observers', 'support': 'Support',
                 'privacy': 'Privacy'},
         'titles': {
             'home': 'FOCUS – classroom observation app',
-            'municipalities': 'Shared spreadsheet for municipalities – FOCUS',
+            'observers': 'Share data with other observers – FOCUS',
             'support': 'Support – FOCUS',
             'privacy': 'Privacy Policy – FOCUS',
         },
@@ -172,6 +178,16 @@ def build():
         org_address=ORG['address'], contact=TEXT['sv']['contact'],
         email=EMAIL, privacy='/integritet/', privacy_label='Integritet')
     (out / '404.html').write_text(not_found)
+
+    # Gamla adresser skickas vidare, så att länkar som spridits fungerar.
+    for old, new in REDIRECTS.items():
+        target = out / old.strip('/') / 'index.html'
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(
+            '<!doctype html><meta charset="utf-8">'
+            f'<title>FOCUS</title><link rel="canonical" href="{SITE}{new}">'
+            f'<meta http-equiv="refresh" content="0; url={new}">'
+            f'<a href="{new}">{SITE}{new}</a>\n')
     (out / 'CNAME').write_text('focus.vestigio.se\n')
     (out / '.nojekyll').write_text('')
     print('Byggt:', sum(1 for _ in out.rglob('index.html')), 'sidor')
