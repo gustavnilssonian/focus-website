@@ -17,12 +17,22 @@ ORG = {
     'address': 'c/o Knackeriet, Sankt Paulsgatan 25, 118 48 Stockholm',
 }
 
+# Referensen till appen. Samma uppgifter står i appens
+# lib/services/citation.dart; ändra på båda ställena vid en ny version.
+CITE = {
+    'author': 'Vestigio',
+    'version': '1.0.0',
+    'year': '2026',
+    'doi': '',  # t.ex. 10.5281/zenodo.1234567; tom = webbadressen används
+}
+
 # (nyckel, svensk sökväg, engelsk sökväg)
 PAGES = [
     ('home', '/', '/en/'),
     ('observers', '/observatorer/', '/en/observers/'),
     ('support', '/support/', '/en/support/'),
     ('privacy', '/integritet/', '/en/privacy/'),
+    ('cite', '/referera/', '/en/cite/'),
 ]
 
 # Adresser som bytts ut: gammal → ny.
@@ -41,6 +51,7 @@ TEXT = {
             'observers': 'Dela data med andra observatörer – FOCUS',
             'support': 'Support – FOCUS',
             'privacy': 'Integritetspolicy – FOCUS',
+            'cite': 'Referera till FOCUS',
         },
         'description': 'FOCUS är en app för systematiska '
                        'klassrumsobservationer: tidtagning, kodning, '
@@ -49,6 +60,7 @@ TEXT = {
         'footer_by': 'FOCUS utvecklas av',
         'org_number': 'Org.nr',
         'contact': 'Kontakt',
+        'cite': 'Referera till FOCUS',
         'skip': 'Till innehållet',
     },
     'en': {
@@ -60,6 +72,7 @@ TEXT = {
             'observers': 'Share data with other observers – FOCUS',
             'support': 'Support – FOCUS',
             'privacy': 'Privacy Policy – FOCUS',
+            'cite': 'How to cite FOCUS',
         },
         'description': 'FOCUS is an app for systematic classroom '
                        'observations: timing, coding, summaries, '
@@ -67,6 +80,7 @@ TEXT = {
         'footer_by': 'FOCUS is developed by',
         'org_number': 'Reg. no.',
         'contact': 'Contact',
+        'cite': 'How to cite FOCUS',
         'skip': 'Skip to content',
     },
 }
@@ -105,7 +119,7 @@ LAYOUT = '''<!doctype html>
     </div>
     <div>
       <p>{contact}: <a href="mailto:{email}">{email}</a></p>
-      <p><a href="{privacy}">{privacy_label}</a></p>
+      <p><a href="{privacy}">{privacy_label}</a> · <a href="{cite}">{cite_label}</a></p>
     </div>
   </div>
 </footer>
@@ -132,7 +146,13 @@ def build():
             path = sv_path if lang == 'sv' else en_path
             other_path = en_path if lang == 'sv' else sv_path
             body = (root / 'content' / lang / f'{key}.html').read_text()
-            body = (body.replace('{{email}}', EMAIL)
+            cite_link = ('https://doi.org/' + CITE['doi']
+                         if CITE['doi'] else SITE)
+            body = (body.replace('{{cite_author}}', CITE['author'])
+                        .replace('{{cite_version}}', CITE['version'])
+                        .replace('{{cite_year}}', CITE['year'])
+                        .replace('{{cite_link}}', cite_link)
+                        .replace('{{email}}', EMAIL)
                         .replace('{{org_name}}', ORG['name'])
                         .replace('{{org_number}}', ORG['number'])
                         .replace('{{org_address}}', ORG['address']))
@@ -157,6 +177,7 @@ def build():
                 org_address=ORG['address'], contact=text['contact'],
                 email=EMAIL, privacy=page_path('privacy', lang),
                 privacy_label=text['nav']['privacy'],
+                cite=page_path('cite', lang), cite_label=text['cite'],
             )
             target = out / path.strip('/') / 'index.html'
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -176,7 +197,8 @@ def build():
         footer_by=TEXT['sv']['footer_by'], org_name=ORG['name'],
         org_number=TEXT['sv']['org_number'], org_nr=ORG['number'],
         org_address=ORG['address'], contact=TEXT['sv']['contact'],
-        email=EMAIL, privacy='/integritet/', privacy_label='Integritet')
+        email=EMAIL, privacy='/integritet/', privacy_label='Integritet',
+        cite='/referera/', cite_label=TEXT['sv']['cite'])
     (out / '404.html').write_text(not_found)
 
     # Gamla adresser skickas vidare, så att länkar som spridits fungerar.
