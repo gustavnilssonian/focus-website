@@ -83,7 +83,7 @@ LAYOUT = '''<!doctype html>
 <link rel="alternate" hreflang="en" href="{site}{en_path}">
 <link rel="icon" href="/assets/img/icon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/img/icon-180.png">
-<meta name="theme-color" content="#395801">
+<meta name="theme-color" content="#325005">
 <link rel="stylesheet" href="/assets/css/site.css">
 </head>
 <body>
